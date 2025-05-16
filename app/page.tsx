@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import { Menu, Phone, MapPin, Clock, Instagram, Facebook, ChevronRight, Star, X } from "lucide-react"
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
@@ -11,6 +12,38 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 import { siteData } from "./data"
+import { Footer } from "@/components/Footer"
+
+// Update navigation array to include galeria
+const navigation = [...siteData.navigation]
+
+// Featured photos from the anniversary album
+const anniversaryPhotos = [
+  {
+    image: "/Aniversário PM/DESTAQUE.JPG",
+    alt: "Aniversário P&M - Destaque"
+  },
+  {
+    image: "/Aniversário PM/destaque2.JPG",
+    alt: "Celebração Exclusiva"
+  },
+  {
+    image: "/Aniversário PM/destaque3.JPG",
+    alt: "Momentos Especiais"
+  },
+  {
+    image: "/Aniversário PM/_DSC0014.JPG",
+    alt: "Evento Comemorativo"
+  },
+  {
+    image: "/Aniversário PM/_DSC0034.JPG",
+    alt: "Decoração Premium"
+  },
+  {
+    image: "/Aniversário PM/_DSC0074.JPG",
+    alt: "Celebração de Aniversário"
+  }
+]
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
@@ -23,7 +56,7 @@ export default function Home() {
       setScrolled(window.scrollY > 50)
 
       // Determine active section
-      const currentSection = siteData.navigation.find((section) => {
+      const currentSection = navigation.find((section) => {
         const element = sectionsRef.current[section]
         if (!element) return false
 
@@ -64,7 +97,7 @@ export default function Home() {
       {/* Header */}
       <header
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          scrolled ? "bg-[#2a0800] text-[#f4f3ee] py-3 shadow-lg" : "bg-transparent text-[#f4f3ee] py-5"
+          scrolled ? "bg-[#2a0800] text-[#f4f3ee] py-3 shadow-lg" : "bg-transparent text-[#f4f3ee] py-4"
         }`}
       >
         <div className="container mx-auto flex items-center justify-between px-4">
@@ -72,28 +105,27 @@ export default function Home() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-4"
           >
-            <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-[#d38b5d] flex items-center justify-center bg-[#f4f3ee]">
+            <div className="relative h-16 w-auto flex items-center">
               <Image
-                src="https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835343/pmbeauty/logos/eiln2k4fbsvksvoobxpu.png"
+                src="https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835348/pmbeauty/logos/j0yxo2egfymnswkawkju.png"
                 alt={`${siteData.siteName} Logo`}
-                width={32}
-                height={32}
-                className="object-contain w-auto h-auto"
+                width={190}
+                height={64}
+                className="object-contain w-auto h-full"
+                priority
               />
             </div>
-            <span className="text-xl font-light tracking-wider">
-              <span className="font-bold">P&M</span> Beauty Space
-            </span>
+            <span className="text-2xl font-light tracking-wide">P&M Beauty Space</span>
           </motion.div>
 
           <nav className="hidden md:block">
             <ul className="flex gap-8">
-              {siteData.navigation.map((item) => (
+              {navigation.map((item) => (
                 <li key={item}>
                   <a
-                    href={`#${item}`}
+                    href={item === "galeria" ? "/galeria" : `#${item}`}
                     className={`text-sm uppercase tracking-wider transition-all duration-300 hover:text-[#d38b5d] ${
                       activeSection === item ? "font-semibold text-[#d38b5d]" : "font-light"
                     }`}
@@ -106,15 +138,20 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <motion.a
-              href={`tel:${siteData.contact.phone}`}
-              className="hidden md:flex items-center gap-2 text-sm uppercase tracking-wider hover:text-[#d38b5d] transition-colors"
+            <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Phone size={16} />
-              <span>Agendar</span>
-            </motion.a>
+              <a
+                href={`https://wa.me/351936322227?text=Olá, gostaria de agendar uma consulta!`}
+                className="hidden md:flex items-center gap-2 text-sm uppercase tracking-wider hover:text-[#d38b5d] transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Phone size={16} />
+                <span>Agendar</span>
+              </a>
+            </motion.div>
 
             <Sheet>
               <SheetTrigger asChild>
@@ -126,28 +163,25 @@ export default function Home() {
               <SheetContent className="bg-[#2a0800] text-[#f4f3ee] border-l border-[#a15e49]/30">
                 <div className="flex justify-between items-center mb-8">
                   <div className="flex items-center gap-2">
-                    <div className="relative h-8 w-8 overflow-hidden rounded-full border-2 border-[#d38b5d] bg-[#f4f3ee] flex items-center justify-center">
+                    <div className="relative h-14 w-auto flex items-center">
                       <Image
-                        src="https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835343/pmbeauty/logos/eiln2k4fbsvksvoobxpu.png"
+                        src="https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835348/pmbeauty/logos/j0yxo2egfymnswkawkju.png"
                         alt={`${siteData.siteName} Logo`}
-                        width={24}
-                        height={24}
-                        className="object-contain w-auto h-auto"
+                        width={150}
+                        height={56}
+                        className="object-contain w-auto h-full"
                       />
                     </div>
-                    <span className="text-lg font-light tracking-wider">
-                      <span className="font-bold">P&M</span>
-                    </span>
                   </div>
                   <SheetClose className="rounded-full p-1 hover:bg-[#a15e49]/20">
                     <X className="h-5 w-5" />
                   </SheetClose>
                 </div>
                 <nav className="flex flex-col gap-6 mt-8">
-                  {siteData.navigation.map((item) => (
+                  {navigation.map((item) => (
                     <SheetClose asChild key={item}>
                       <a
-                        href={`#${item}`}
+                        href={item === "galeria" ? "/galeria" : `#${item}`}
                         className="text-lg uppercase tracking-wider text-[#f4f3ee] hover:text-[#d38b5d] transition-colors flex items-center justify-between group"
                       >
                         {item}
@@ -157,9 +191,15 @@ export default function Home() {
                   ))}
                 </nav>
                 <div className="absolute bottom-8 left-6 right-6">
-                  <Button className="w-full bg-[#a15e49] hover:bg-[#a15e49]/90 text-[#f4f3ee]">
-                    <Phone className="mr-2 h-4 w-4" />
-                    Agendar Consulta
+                  <Button className="w-full bg-[#a15e49] hover:bg-[#a15e49]/90 text-[#f4f3ee]" asChild>
+                    <a 
+                      href={`https://wa.me/351936322227?text=Olá, gostaria de agendar uma consulta!`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Phone className="mr-2 h-4 w-4" />
+                      Agendar Consulta
+                    </a>
                   </Button>
                 </div>
               </SheetContent>
@@ -186,29 +226,35 @@ export default function Home() {
         </div>
 
         <div className="container mx-auto px-4 relative z-20">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="space-y-6">
+          <div className="max-w-3xl mx-auto text-center mt-16">
+            <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="space-y-8">
               <motion.p variants={fadeIn} className="text-[#d38b5d] uppercase tracking-[0.2em] font-light">
                 {siteData.tagline}
               </motion.p>
 
               <motion.h1
                 variants={fadeIn}
-                className="text-4xl md:text-6xl lg:text-7xl font-light text-[#f4f3ee] leading-tight"
+                className="text-5xl md:text-6xl lg:text-7xl font-light text-[#f4f3ee] leading-tight"
               >
                 Seu momento de <span className="font-semibold italic">beleza</span> e <br className="hidden md:block" />
                 <span className="font-semibold italic">bem-estar</span> exclusivo
               </motion.h1>
 
-              <motion.p variants={fadeIn} className="text-lg text-[#f4f3ee]/80 max-w-xl mx-auto">
+              <motion.p variants={fadeIn} className="text-xl text-[#f4f3ee]/80 max-w-xl mx-auto">
                 {siteData.hero.subtitle}
               </motion.p>
 
-              <motion.div variants={fadeIn} className="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.div variants={fadeIn} className="pt-12 flex flex-col sm:flex-row gap-4 justify-center">
                 <Button className="bg-[#a15e49] hover:bg-[#a15e49]/90 text-white px-8 py-6 rounded-none" asChild>
-                  <motion.a href="#contacto" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    {siteData.hero.primaryButton}
-                  </motion.a>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <a 
+                      href={`https://wa.me/351936322227?text=Olá, gostaria de agendar uma Experiência!`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {siteData.hero.primaryButton}
+                    </a>
+                  </motion.div>
                 </Button>
 
                 <Button
@@ -315,13 +361,16 @@ export default function Home() {
                     </div>
 
                     <div className="pt-4">
-                      <p className="text-xl font-light text-[#2a0800] mb-6">
-                        <span className="font-medium">{service.price}</span>
-                      </p>
                       <Button className="bg-[#2a0800] hover:bg-[#2a0800]/90 text-white px-8 py-6 rounded-none" asChild>
-                        <motion.a href="#contacto" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          Agendar {service.title.split("&")[0]}
-                        </motion.a>
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                          <a 
+                            href={`https://wa.me/351936322227?text=Olá, gostaria de agendar ${service.title}!`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Agendar {service.title.split("&")[0]}
+                          </a>
+                        </motion.div>
                       </Button>
                     </div>
                   </div>
@@ -332,7 +381,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Gallery Preview Section (replaced Testimonials) */}
       <section
         id="experiência"
         ref={(el) => (sectionsRef.current["experiência"] = el)}
@@ -350,42 +399,42 @@ export default function Home() {
               A Experiência <span className="font-semibold">P&M</span>
             </h2>
             <p className="text-[#2a0800]/70">
-              O que nossas clientes dizem sobre sua jornada de beleza e bem-estar conosco.
+              Conheça nosso último evento de aniversário
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {siteData.testimonials.map((testimonial, index) => (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                key={index}
-                className="bg-white p-8 shadow-sm relative"
+          <div className="max-w-5xl mx-auto">
+            <Carousel className="w-full">
+              <CarouselContent>
+                {anniversaryPhotos.map((item, index) => (
+                  <CarouselItem key={index}>
+                    <div className="relative h-96 w-full overflow-hidden group">
+                      <div className="absolute inset-0 bg-[#2a0800]/20 z-10 group-hover:bg-[#2a0800]/10 transition-all duration-500"></div>
+                      <Image
+                        src={item.image}
+                        alt={item.alt}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center mt-8 gap-4">
+                <CarouselPrevious className="position-static bg-[#2a0800] hover:bg-[#2a0800]/80 text-[#f4f3ee]" />
+                <CarouselNext className="position-static bg-[#2a0800] hover:bg-[#2a0800]/80 text-[#f4f3ee]" />
+              </div>
+            </Carousel>
+            <div className="flex justify-center mt-12">
+              <Button 
+                className="bg-[#a15e49] hover:bg-[#a15e49]/90 text-[#f4f3ee] px-8 py-6 rounded-none"
+                asChild
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="relative h-14 w-14 rounded-full overflow-hidden">
-                    <Image
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-[#2a0800]">{testimonial.name}</h4>
-                    <p className="text-sm text-[#2a0800]/60">{testimonial.role}</p>
-                  </div>
-                </div>
-                <p className="text-[#2a0800]/80 mb-6">{testimonial.content}</p>
-                <div className="flex">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} size={16} className="text-[#d38b5d] fill-[#d38b5d]" />
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+                <Link href="/galeria">
+                  Ver Galeria Completa
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -452,66 +501,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="py-24 bg-[#f4f3ee]">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center max-w-2xl mx-auto mb-16"
-          >
-            <h2 className="text-3xl font-light mb-4 text-[#2a0800]">
-              Nossa <span className="font-semibold">Galeria</span>
-            </h2>
-            <p className="text-[#2a0800]/70">
-              Conheça nosso espaço e ambiente de relaxamento
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {siteData.gallery.map((item, index) => (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                key={index}
-                className="relative h-64 overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-[#2a0800]/20 z-10 group-hover:bg-[#2a0800]/10 transition-all duration-500"></div>
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section
         id="contacto"
-        ref={(el) => (sectionsRef.current["contacto"] = el)}
+        ref={el => {
+          if (el) {
+            sectionsRef.current["contacto"] = el;
+            return () => { sectionsRef.current["contacto"] = null; };
+          }
+        }}
         className="py-24 bg-[#2a0800] text-[#f4f3ee]"
       >
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center max-w-2xl mx-auto mb-16"
-          >
-            <h2 className="text-3xl font-light mb-4">
-              {siteData.contact.title}
-            </h2>
-            <p className="text-[#d38b5d]">{siteData.contact.subtitle}</p>
-          </motion.div>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl font-light mb-4">
+                {siteData.contact.title}
+              </h2>
+              <p className="text-[#d38b5d]">{siteData.contact.subtitle}</p>
+            </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <motion.div
@@ -529,7 +543,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="text-lg font-medium mb-2">Endereço</h4>
-                    <p className="text-[#f4f3ee]/80">{siteData.contact.address}</p>
+                    <p className="text-[#f4f3ee]/80">Rua do Matadouro, 55, Braga</p>
                   </div>
                 </div>
 
@@ -583,46 +597,30 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="bg-[#f4f3ee] p-8 rounded-sm">
-                <h3 className="text-xl font-medium text-[#2a0800] mb-6">Agende sua consulta</h3>
-                <form className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[#2a0800]/70 mb-2">Nome</label>
-                      <input
-                        type="text"
-                        className="w-full px-4 py-3 bg-white border border-[#d38b5d]/20 text-[#2a0800]"
-                        placeholder="Seu nome"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[#2a0800]/70 mb-2">Email</label>
-                      <input
-                        type="email"
-                        className="w-full px-4 py-3 bg-white border border-[#d38b5d]/20 text-[#2a0800]"
-                        placeholder="Seu email"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-[#2a0800]/70 mb-2">Assunto</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 bg-white border border-[#d38b5d]/20 text-[#2a0800]"
-                      placeholder="Assunto"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[#2a0800]/70 mb-2">Mensagem</label>
-                    <textarea
-                      className="w-full px-4 py-3 bg-white border border-[#d38b5d]/20 text-[#2a0800] h-32"
-                      placeholder="Sua mensagem"
-                    ></textarea>
-                  </div>
-                  <Button className="w-full bg-[#a15e49] hover:bg-[#a15e49]/90 text-[#f4f3ee]">
-                    Enviar Mensagem
-                  </Button>
-                </form>
+              <div className="bg-[#f4f3ee] p-1 rounded-sm h-[450px] w-full">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2984.028291279581!2d-8.42598382346061!3d41.5514037701356!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd24fec752fc8de1%3A0xa9d2d4dda9a19ff5!2sR.%20do%20Matadouro%2055%2C%204700-037%20Braga!5e0!3m2!1spt-PT!2spt!4v1713123927726!5m2!1spt-PT!2spt" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen={false} 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Localização P&M Beauty Space"
+                  className="rounded-sm"
+                ></iframe>
+              </div>
+
+              <div className="mt-6">
+                <Button className="w-full bg-[#a15e49] hover:bg-[#a15e49]/90 text-[#f4f3ee]" asChild>
+                  <a 
+                    href={`https://wa.me/351936322227?text=Olá, gostaria de mais informações sobre os serviços!`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Fale Connosco via WhatsApp
+                  </a>
+                </Button>
               </div>
             </motion.div>
           </div>
@@ -630,71 +628,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#2a0800] text-[#f4f3ee] py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-[#d38b5d] bg-[#f4f3ee] flex items-center justify-center">
-                  <Image
-                    src="https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835343/pmbeauty/logos/eiln2k4fbsvksvoobxpu.png"
-                    alt={`${siteData.siteName} Logo`}
-                    width={32}
-                    height={32}
-                    className="object-contain w-auto h-auto"
-                  />
-                </div>
-                <span className="text-xl font-light tracking-wider">
-                  <span className="font-bold">P&M</span> Beauty Space
-                </span>
-              </div>
-              <p className="text-[#f4f3ee]/70 mb-6">{siteData.footer.description}</p>
-            </div>
-
-            <div>
-              <h4 className="text-lg font-medium mb-6">Links Rápidos</h4>
-              <ul className="space-y-3">
-                {siteData.footer.quickLinks.map((item) => (
-                  <li key={item}>
-                    <a
-                      href={`#${item.toLowerCase()}`}
-                      className="text-[#f4f3ee]/70 hover:text-[#d38b5d] transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-lg font-medium mb-6">Newsletter</h4>
-              <p className="text-[#f4f3ee]/70 mb-4">Inscreva-se para receber novidades e ofertas exclusivas.</p>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Seu email"
-                  className="px-4 py-3 bg-[#f4f3ee]/10 border-none outline-none flex-grow text-[#f4f3ee]"
-                />
-                <Button className="bg-[#a15e49] hover:bg-[#a15e49]/90 rounded-none">Enviar</Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-[#f4f3ee]/10 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-[#f4f3ee]/70 text-sm">
-              &copy; {new Date().getFullYear()} {siteData.siteName}. Todos os direitos reservados.
-            </p>
-            <div className="flex gap-4 mt-4 md:mt-0">
-              {siteData.footer.legal.map((item, index) => (
-                <a key={index} href="#" className="text-[#f4f3ee]/70 hover:text-[#d38b5d] text-sm">
-                  {item}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Custom cursor styles */}
       <style jsx global>{`

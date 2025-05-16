@@ -5,7 +5,7 @@ export const siteData = {
   description: "Um refúgio de luxo dedicado ao bem-estar e beleza feminina em Braga",
 
   // Navegação
-  navigation: ["início", "serviços", "experiência", "sobre", "contacto"],
+  navigation: ["início", "serviços", "experiência", "sobre", "contacto", "galeria"],
 
   // Hero section
   hero: {
@@ -23,7 +23,6 @@ export const siteData = {
       title: "Spa & Relaxamento",
       description: "Tratamentos exclusivos para revitalizar corpo e mente",
       features: ["Massagem de Pedras Quentes", "Aromaterapia Premium", "Banho de Imersão Luxuoso"],
-      price: "A partir de €85",
       image: "https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835304/pmbeauty/photos/euo6n9wvisdvkmy6hiql.jpg",
       icon: "✨",
     },
@@ -32,7 +31,6 @@ export const siteData = {
       title: "Tratamentos Capilares",
       description: "Cuidados personalizados com produtos de alta performance",
       features: ["Hidratação Profunda", "Tratamento com Queratina", "Coloração Orgânica"],
-      price: "A partir de €70",
       image: "https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835305/pmbeauty/photos/zjybcynxuv3u8yjgltro.jpg",
       icon: "💇‍♀️",
     },
@@ -41,7 +39,6 @@ export const siteData = {
       title: "Manicure & Pedicure",
       description: "Arte e cuidado para suas mãos e pés",
       features: ["Manicure Francesa", "Nail Art Exclusiva", "Tratamento de Parafina"],
-      price: "A partir de €45",
       image: "https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835333/pmbeauty/photos/jfnrewyoqxp2qw4vvjls.jpg",
       icon: "💅",
     },
@@ -50,7 +47,6 @@ export const siteData = {
       title: "Tratamentos Faciais",
       description: "Rejuvenescimento e luminosidade para sua pele",
       features: ["Microdermoabrasão", "Máscara de Ouro 24k", "Peeling de Diamante"],
-      price: "A partir de €95",
       image: "https://res.cloudinary.com/dvopxlh1g/image/upload/v1742835307/pmbeauty/photos/xqyxuc2f0luhkjmzedhq.jpg",
       icon: "✨",
     },
@@ -143,13 +139,13 @@ export const siteData = {
     subtitle: "Estamos prontos para recebê-la",
     description:
       "Agende sua visita ou entre em contacto para mais informações sobre nossos serviços e promoções especiais.",
-    phone: "+351 911 234 567",
+    phone: "+351 936 322 227",
     email: "contacto@pmbeautyspace.com",
-    address: "Rua das Oliveiras, 123, Braga",
-    hours: ["Segunda a Sexta: 10h às 20h", "Sábado: 9h às 18h", "Domingo: Fechado"],
+    address: "Rua do Matadouro, 55, Braga",
+    hours: ["Terça a Sexta: 10h às 20h", "Sábado e Domingo: 9h às 21h"],
     social: {
-      instagram: "https://instagram.com/pmbeautyspace",
-      facebook: "https://facebook.com/pmbeautyspace",
+      instagram: "https://www.instagram.com/pm_beautySpace",
+      facebook: "https://www.facebook.com/pmespacodebeleza/",
     },
     mapLocation: {
       lat: 41.5454,
